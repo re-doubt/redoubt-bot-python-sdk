@@ -10,3 +10,8 @@ See the developer documentation at [docs.redoubt.online](https://docs.redoubt.on
 ## Bot examples
 
 * [New pools detector](./new_pools.py)
+
+## API keys
+
+To use SDK one need to request API key from @RedoubtAPIBot and pass it either directly to 
+``RedoubtEventsStream`` instance or using REDOUBT_API_KEY env variable.
