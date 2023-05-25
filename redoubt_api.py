@@ -2,6 +2,7 @@
 
 import asyncio
 import os
+import json
 from loguru import logger
 from gql import Client, gql
 from gql.transport.aiohttp import AIOHTTPTransport
@@ -40,4 +41,6 @@ class RedoubtEventsStream:
         """)
         async with Client(transport=self.transport, fetch_schema_from_transport=False) as session:
             async for result in session.subscribe(subscription):
-                logger.info(result)
+                for event in result['redoubt_events_stream']:
+                    event['data'] = json.loads(event['data'])
+                    handler(event)
