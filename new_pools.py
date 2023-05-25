@@ -11,7 +11,7 @@ def handler(obj):
 async def run_bot():
     logger.info("Running new pools bot")
     stream = RedoubtEventsStream()
-    await stream.subscribe(handler)
+    await stream.subscribe(handler, event_type='NewPool')
 
 if __name__ == "__main__":
     asyncio.run(run_bot())

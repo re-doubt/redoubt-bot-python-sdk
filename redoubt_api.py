@@ -22,7 +22,7 @@ class RedoubtEventsStream:
                 }
             )
     
-    async def subscribe(self, handler, scope=None):
+    async def subscribe(self, handler, scope=None, event_type=None):
         subscription = gql("""
             subscription GetEventsStreamStreamingSubscription {
                 redoubt_events_stream (
@@ -42,5 +42,7 @@ class RedoubtEventsStream:
         async with Client(transport=self.transport, fetch_schema_from_transport=False) as session:
             async for result in session.subscribe(subscription):
                 for event in result['redoubt_events_stream']:
+                    if event_type is not None and event['event_type'] != event_type:
+                        continue
                     event['data'] = json.loads(event['data'])
                     handler(event)
