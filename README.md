@@ -6,3 +6,7 @@ Each bot acts like a little security camera monitoring something specific on-cha
 direct result of the bots being run. Some bots monitor generic threats, and others monitor protocol-specific activity.
 
 See the developer documentation at [docs.redoubt.online](https://docs.redoubt.online)
+
+## Bot examples
+
+* [New pools detector](./new_pools.py)
