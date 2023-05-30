@@ -28,7 +28,7 @@ class RedoubtEventsStream:
         res = await self.session.execute(query)
         logger.info(res)
     
-    async def subscribe(self, handler, scope=None, event_type=None):
+    async def subscribe(self, handler, scope=None, event_type=None, event_target=None):
         now = datetime.now().astimezone(timezone.utc).strftime("%Y-%m-%d %H:%M:%S") # "2023-05-29 12:10:16.051"# int(time.time())
         logger.info(f"Starting from cursor {now}")
         filters = []
@@ -36,6 +36,8 @@ class RedoubtEventsStream:
             filters.append("""{event_scope: {_eq: "%s"}}""" % scope)
         if event_type is not None:
             filters.append("""{event_type: {_eq: "%s"}}""" % event_type)
+        if event_target is not None:
+            filters.append("""{event_target: {_eq: "%s"}}""" % event_target)
         if len(filters) == 0:
             filters = ""
         else:

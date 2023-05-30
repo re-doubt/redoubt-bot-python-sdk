@@ -31,7 +31,7 @@ class JettonTransfersBot:
 
     async def run_bot(self):
         logger.info("Running jetton transfer bot")
-        await self.stream.subscribe(self.handler, event_type='Transfer')
+        await self.stream.subscribe(self.handler, scope="Jetton", event_type='Transfer')
 
 if __name__ == "__main__":
     bot = JettonTransfersBot()
