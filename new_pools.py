@@ -4,7 +4,7 @@ import asyncio
 from loguru import logger
 from redoubt_api import RedoubtEventsStream
 
-def handler(obj):
+def handler(obj, session):
     # logger.info(obj)
     logger.info(f"Got new pool: {obj['data']['pool_name']} with TVL {obj['data']['tvl_ton']}")
 

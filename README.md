@@ -15,3 +15,20 @@ See the developer documentation at [docs.redoubt.online](https://docs.redoubt.on
 
 To use SDK one need to request API key from @RedoubtAPIBot and pass it either directly to 
 ``RedoubtEventsStream`` instance or using REDOUBT_API_KEY env variable.
+
+## Examples
+
+### New pools bot
+
+It is monitoring for new pools and just prints info
+
+### Jetton transfers bot
+
+More complicated example. It listens for all Jetton transfers and after receiving info 
+about the transfer it requests additional info over GraphQL API. In this case it
+uses additional GraphQL request to get Jetton metadata (symbol and decimals).
+
+As a result you will get such a message:
+```
+EQ...EJ => EQ...7f 22.033882202 SCALE
+```

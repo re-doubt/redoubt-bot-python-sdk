@@ -2,7 +2,9 @@
 
 import asyncio
 import os
+import inspect
 import json
+from datetime import timezone, datetime
 from loguru import logger
 from gql import Client, gql
 from gql.transport.aiohttp import AIOHTTPTransport
@@ -21,13 +23,32 @@ class RedoubtEventsStream:
                 'X-API-Key': api_key
                 }
             )
+
+    async def execute(self, query):
+        res = await self.session.execute(query)
+        logger.info(res)
     
     async def subscribe(self, handler, scope=None, event_type=None):
+        now = datetime.now().astimezone(timezone.utc).strftime("%Y-%m-%d %H:%M:%S") # "2023-05-29 12:10:16.051"# int(time.time())
+        logger.info(f"Starting from cursor {now}")
+        filters = []
+        if scope is not None:
+            filters.append("""{event_scope: {_eq: "%s"}}""" % scope)
+        if event_type is not None:
+            filters.append("""{event_type: {_eq: "%s"}}""" % event_type)
+        if len(filters) == 0:
+            filters = ""
+        else:
+            filters = "," + ",".join(filters)
+
         subscription = gql("""
             subscription GetEventsStreamStreamingSubscription {
-                redoubt_events_stream (
-                    cursor:{initial_value: {time: now}},
-                    batch_size:1) {
+                redoubt_events (
+                    where: {_and: [
+                        {time: {_gte: "%s"}}
+                        %s
+                    ]}
+                    ) {
                     event_id
                     event_scope
                     event_target
@@ -38,11 +59,16 @@ class RedoubtEventsStream:
                     time
                 }
             }
-        """)
+        """ % (now, filters))
         async with Client(transport=self.transport, fetch_schema_from_transport=False) as session:
             async for result in session.subscribe(subscription):
-                for event in result['redoubt_events_stream']:
+                for event in result['redoubt_events']:
                     if event_type is not None and event['event_type'] != event_type:
+                        logger.info(event_type)
                         continue
                     event['data'] = json.loads(event['data'])
-                    handler(event)
+                    if inspect.iscoroutinefunction(handler):
+                        await handler(event, session)
+                    else:
+                        handler(event, session)
+                    
