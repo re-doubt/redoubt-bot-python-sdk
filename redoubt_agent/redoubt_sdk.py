@@ -16,7 +16,7 @@ DEFAULT_ENDPOINT = 'ws://44.210.191.88:9080/v1/graphql'  # TODO update to wss
 
 
 class RedoubtEventsStream:
-    def __init__(self, endpoint=DEFAULT_ENDPOINT, api_key=None):
+    def __init__(self, api_key=None, endpoint=DEFAULT_ENDPOINT):
         if api_key is None:
             api_key = os.environ.get('REDOUBT_API_KEY', None)
         assert api_key is not None, "API key not found"
