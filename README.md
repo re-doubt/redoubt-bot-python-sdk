@@ -23,6 +23,7 @@ to `RedoubtEventsStream` instance or using `REDOUBT_API_KEY` environment variabl
 ### New pools bot
 
 * [New pools detector](./examples/new_pools.py)
+
 It is monitoring for new pools and just prints info.
 
 ### Jetton transfers bot
