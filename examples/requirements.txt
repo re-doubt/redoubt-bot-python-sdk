@@ -1,1 +1,3 @@
 redoubt_agent==0.1.1
+gql[all]==3.4.1
+loguru==0.7.0
