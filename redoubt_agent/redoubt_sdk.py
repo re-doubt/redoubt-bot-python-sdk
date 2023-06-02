@@ -1,17 +1,19 @@
 #!/usr/bin/env python
 
 import asyncio
-import os
 import inspect
 import json
-from datetime import timezone, datetime
-from loguru import logger
+import os
+from datetime import datetime, timezone
+
 from gql import Client, gql
 from gql.transport.aiohttp import AIOHTTPTransport
 from gql.transport.requests import RequestsHTTPTransport
 from gql.transport.websockets import WebsocketsTransport
+from loguru import logger
 
-DEFAULT_ENDPOINT='ws://44.210.191.88:9080/v1/graphql' # TODO update to wss
+from . import DEFAULT_ENDPOINT
+
 
 class RedoubtEventsStream:
     def __init__(self, endpoint=DEFAULT_ENDPOINT, api_key=None):
@@ -21,15 +23,16 @@ class RedoubtEventsStream:
         self.transport = WebsocketsTransport(
             url=endpoint, ping_interval=1, pong_timeout=1, headers={
                 'X-API-Key': api_key
-                }
-            )
+            }
+        )
 
     async def execute(self, query):
         res = await self.session.execute(query)
         logger.info(res)
-    
+
     async def subscribe(self, handler, scope=None, event_type=None, event_target=None):
-        now = datetime.now().astimezone(timezone.utc).strftime("%Y-%m-%d %H:%M:%S") # "2023-05-29 12:10:16.051"# int(time.time())
+        now = datetime.now().astimezone(timezone.utc).strftime(
+            "%Y-%m-%d %H:%M:%S")  # "2023-05-29 12:10:16.051"# int(time.time())
         logger.info(f"Starting from cursor {now}")
         filters = []
         if scope is not None:
@@ -73,4 +76,3 @@ class RedoubtEventsStream:
                         await handler(event, session)
                     else:
                         handler(event, session)
-                    
