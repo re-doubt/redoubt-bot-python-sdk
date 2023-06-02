@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 
 import asyncio
+
 from loguru import logger
-from redoubt_api import RedoubtEventsStream
+from redoubt_agent import RedoubtEventsStream
+
 
 def handler(obj, session):
     # logger.info(obj)
@@ -10,7 +12,7 @@ def handler(obj, session):
 
 async def run_bot():
     logger.info("Running new pools bot")
-    stream = RedoubtEventsStream()
+    stream = RedoubtEventsStream(api_key=None)
     await stream.subscribe(handler, event_type='NewPool')
 
 if __name__ == "__main__":
