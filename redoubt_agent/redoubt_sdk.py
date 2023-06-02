@@ -12,7 +12,7 @@ from gql.transport.requests import RequestsHTTPTransport
 from gql.transport.websockets import WebsocketsTransport
 from loguru import logger
 
-from . import DEFAULT_ENDPOINT
+DEFAULT_ENDPOINT = 'ws://44.210.191.88:9080/v1/graphql'  # TODO update to wss
 
 
 class RedoubtEventsStream:
