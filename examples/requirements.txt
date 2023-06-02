@@ -1,0 +1,1 @@
+redoubt_agent==0.1.1
