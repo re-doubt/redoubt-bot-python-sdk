@@ -30,7 +30,7 @@ class JettonTransfersBot:
         decimals = jetton.get("decimals", 9)
         if not decimals:
             decimals = 9
-        logger.info(f"{obj['data']['source_owner']} => {obj['data']['destination_owner']} {obj['data']['amount'] / pow(10, decimals)} {jetton['symbol']}")
+        logger.info(f"{obj['data']['source_owner']} => {obj['data']['destination_owner']} {int(obj['data']['amount']) / pow(10, decimals)} {jetton['symbol']}")
 
     async def run_bot(self):
         logger.info("Running jetton transfer bot")

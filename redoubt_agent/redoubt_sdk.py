@@ -27,8 +27,8 @@ class RedoubtEventsStream:
         )
 
     async def execute(self, query):
-        res = await self.session.execute(query)
-        logger.info(res)
+        async with Client(transport=self.transport, fetch_schema_from_transport=False) as session:
+            return await session.execute(gql(query))
 
     async def subscribe(self, handler, scope=None, event_type=None, event_target=None):
         now = datetime.now().astimezone(timezone.utc).strftime(
