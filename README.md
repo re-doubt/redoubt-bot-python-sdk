@@ -22,13 +22,13 @@ to `RedoubtEventsStream` instance or using `REDOUBT_API_KEY` environment variabl
 
 ### New pools bot
 
-* [New pools detector](./examples/new_pools.py)
+* [New pools detector](https://github.com/re-doubt/redoubt-bot-python-sdk/blob/main/examples/new_pools.py)
 
 It is monitoring for new pools and just prints info.
 
 ### Jetton transfers bot
 
-* [Jetton transfers bot](./examples/jetton_transfer.py)
+* [Jetton transfers bot](https://github.com/re-doubt/redoubt-bot-python-sdk/blob/main/examples/jetton_transfer.py)
 
 More complicated example. It listens for all Jetton transfers and after receiving info 
 about the transfer it requests additional info over GraphQL API. In this case it
