@@ -6,7 +6,7 @@ from loguru import logger
 from redoubt_agent import RedoubtEventsStream
 
 
-def handler(obj, session):
+def handler(obj):
     # logger.info(obj)
     logger.info(f"Got new pool: {obj['data']['pool_name']} with TVL {obj['data']['tvl_ton']}")
 
