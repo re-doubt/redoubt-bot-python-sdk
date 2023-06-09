@@ -10,11 +10,11 @@ from redoubt_agent import RedoubtEventsStream
 class JettonTransfersBot:
     def __init__(self, api_key=None):
         self.api_key = api_key
-        self.stream =  RedoubtEventsStream(api_key)
+        self.stream = RedoubtEventsStream(api_key)
 
-    async def handler(self, obj, session):
+    async def handler(self, obj):
         # logger.info(obj)
-        res = await session.execute(gql("""
+        res = await self.stream.execute("""
             query jetton {
                 redoubt_jetton_master(where: {address: {_eq: "%s"}}) {
                     address
@@ -23,7 +23,7 @@ class JettonTransfersBot:
                     admin_address
                 }
             }
-        """ % obj['data']['master']))
+        """ % obj['data']['master'])
         if len(res['redoubt_jetton_master']) == 0:
             logger.info("Jetton master info not found")
         jetton = res['redoubt_jetton_master'][0]
