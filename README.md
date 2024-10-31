@@ -1,3 +1,5 @@
+# The project is deprecated and is not supported anymore
+
 # re:doubt Bot Python SDK
 
 [![PyPI](https://img.shields.io/pypi/v/redoubt-agent?color=blue)](https://pypi.org/project/redoubt-agent/)
